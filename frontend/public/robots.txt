@@ -1,0 +1,21 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /_next/
+Disallow: /api/
+Disallow: /favicon.ico
+Disallow: /public/
+Disallow: /images/
+Disallow: /styles/
+Disallow: /node_modules/
+Disallow: /components/
+Disallow: /404/
+Disallow: /500/
+Disallow: /sitemap.xml
+Disallow: /robots.txt
+
+# Host
+Host: https://www.zriadventures.com
+
+# Sitemaps
+Sitemap: https://www.zriadventures.com/sitemap.xml
