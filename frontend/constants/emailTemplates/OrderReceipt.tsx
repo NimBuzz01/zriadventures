@@ -1,4 +1,4 @@
-import { formatDate } from '@/lib/utils/func'
+import { formatDate } from '@/lib/utils'
 import { TNC_BANK_DETAILS } from '../pages/TermsNConditionsConstants'
 
 export function createReceiptEmail(orderDetails: any, bank_currency?: string) {
@@ -67,24 +67,24 @@ export function createReceiptEmail(orderDetails: any, bank_currency?: string) {
                           },
                       }
                     : item.item.voucher.voucherType === 'Experience'
-                    ? {
-                          experience: {
-                              name: item.item.voucher.voucherExperience.item
-                                  .name,
-                              adults: item.item.voucher.voucherExperience.item
-                                  .adults,
-                              children:
-                                  item.item.voucher.voucherExperience.item
-                                      .children,
-                              extras: item.item.voucher.voucherExperience.item.extras.map(
-                                  (extra: any) => ({
-                                      name: extra.name,
-                                      quantity: extra.quantity,
-                                  })
-                              ),
-                          },
-                      }
-                    : {}), // Empty object if voucherType doesn't match 'Cash' or 'Experience'
+                      ? {
+                            experience: {
+                                name: item.item.voucher.voucherExperience.item
+                                    .name,
+                                adults: item.item.voucher.voucherExperience.item
+                                    .adults,
+                                children:
+                                    item.item.voucher.voucherExperience.item
+                                        .children,
+                                extras: item.item.voucher.voucherExperience.item.extras.map(
+                                    (extra: any) => ({
+                                        name: extra.name,
+                                        quantity: extra.quantity,
+                                    })
+                                ),
+                            },
+                        }
+                      : {}), // Empty object if voucherType doesn't match 'Cash' or 'Experience'
             }
         })
     const simplifiedEvents: any[] =

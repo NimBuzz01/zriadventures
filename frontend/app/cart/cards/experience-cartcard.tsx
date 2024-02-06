@@ -8,7 +8,7 @@ import { FaChild } from 'react-icons/fa'
 import { IoManSharp } from 'react-icons/io5'
 import { CartItem } from '@/lib/types/common-types'
 import { ExperienceCartItem } from '@/lib/types/experience-types'
-import { formatDate, getExperienceTotal } from '@/lib/utils'
+import { calculateExperienceTotal, formatDate } from '@/lib/utils'
 
 interface Props {
     item: CartItem
@@ -51,23 +51,15 @@ const ExperienceCartCard = ({ item, onDelete }: Props) => {
                         {local ? (
                             <>
                                 LKR{' '}
-                                {getExperienceTotal(
-                                    experienceItem.experience,
-                                    experienceItem.duration,
-                                    experienceItem.adults,
-                                    experienceItem.children,
-                                    experienceItem.extras
+                                {calculateExperienceTotal(
+                                    experienceItem
                                 ).LKR.toFixed(2)}
                             </>
                         ) : (
                             <>
                                 USD $
-                                {getExperienceTotal(
-                                    experienceItem.experience,
-                                    experienceItem.duration,
-                                    experienceItem.adults,
-                                    experienceItem.children,
-                                    experienceItem.extras
+                                {calculateExperienceTotal(
+                                    experienceItem
                                 ).USD.toFixed(2)}
                             </>
                         )}

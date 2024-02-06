@@ -1,4 +1,4 @@
-import { RentalTypes } from '@/types/rentalTypes'
+import { RentalTypes } from '@/lib/types/rental-types'
 
 export function createRentalInquiry(data: any, rental: RentalTypes) {
     return `
