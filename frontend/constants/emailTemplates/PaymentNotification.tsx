@@ -1,18 +1,18 @@
-import { getOrderDetails } from '@/lib/utils/api'
-import { getSortedItems } from '@/lib/utils/filter-items'
+import { getOrderDetails } from "@/lib/utils/strapi-utils";
+import { getSortedItems } from "@/lib/utils/refactor-items";
 
 export async function createPayhereNotifyEmail(
-    orderId: string,
-    provider: 'PAYHERE' | 'BANK' | 'KOKO' | 'MINTPAY',
-    currency: string,
-    amount: string,
-    status: 'SUCCESS' | 'FAILED' | 'PENDING'
+  orderId: string,
+  provider: "PAYHERE" | "BANK" | "KOKO" | "MINTPAY",
+  currency: string,
+  amount: string,
+  status: "SUCCESS" | "FAILED" | "PENDING"
 ) {
-    const order = await getOrderDetails(orderId)
-    const orderData = order[0].attributes
-    const items = await getItems(order)
+  const order = await getOrderDetails(orderId);
+  const orderData = order[0].attributes;
+  const items = await getItems(order);
 
-    return `
+  return `
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -50,7 +50,7 @@ export async function createPayhereNotifyEmail(
                           <tr>
                               <td><strong>Full Name:</strong></td>
                               <td>${
-                                  orderData.firstName + ' ' + orderData.lastName
+                                orderData.firstName + " " + orderData.lastName
                               }</td>
                           </tr>
                           <tr>
@@ -69,8 +69,8 @@ export async function createPayhereNotifyEmail(
                               <td><strong>Items:</strong></td>
                           </tr>
                           ${items.map(
-                              (item: any) =>
-                                  `
+                            (item: any) =>
+                              `
                                 <tr>
                                     <td>${item.name}</td>
                                     </tr>
@@ -78,8 +78,8 @@ export async function createPayhereNotifyEmail(
                                     <td>${item.sku}</td>
                                     </tr>
                                     ${item.content.map(
-                                        (item: any) =>
-                                            `<tr>
+                                      (item: any) =>
+                                        `<tr>
                                             <td>${item}</td>
                                             </tr>
                                         `
@@ -92,20 +92,20 @@ export async function createPayhereNotifyEmail(
           </table>
       </body>
       </html>
-    `
+    `;
 }
 
 export async function createKokoNotifyEmail(
-    orderId: string,
-    provider: 'PAYHERE' | 'BANK' | 'KOKO' | 'MINTPAY',
-    status: 'SUCCESS' | 'FAILED' | 'PENDING',
-    trnsId: string
+  orderId: string,
+  provider: "PAYHERE" | "BANK" | "KOKO" | "MINTPAY",
+  status: "SUCCESS" | "FAILED" | "PENDING",
+  trnsId: string
 ) {
-    const order = await getOrderDetails(orderId)
-    const orderData = order[0].attributes
-    const items = await getItems(order)
+  const order = await getOrderDetails(orderId);
+  const orderData = order[0].attributes;
+  const items = await getItems(order);
 
-    return `
+  return `
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -139,7 +139,7 @@ export async function createKokoNotifyEmail(
                           <tr>
                               <td><strong>Full Name:</strong></td>
                               <td>${
-                                  orderData.firstName + ' ' + orderData.lastName
+                                orderData.firstName + " " + orderData.lastName
                               }</td>
                           </tr>
                           <tr>
@@ -158,8 +158,8 @@ export async function createKokoNotifyEmail(
                               <td><strong>Items:</strong></td>
                           </tr>
                         ${items.map(
-                            (item: any) =>
-                                `
+                          (item: any) =>
+                            `
                                 <tr>
                                     <td>${item.name}</td>
                                     </tr>
@@ -167,8 +167,8 @@ export async function createKokoNotifyEmail(
                                     <td>${item.sku}</td>
                                     </tr>
                                     ${item.content.map(
-                                        (item: any) =>
-                                            `<tr>
+                                      (item: any) =>
+                                        `<tr>
                                             <td>${item}</td>
                                             </tr>
                                         `
@@ -181,18 +181,18 @@ export async function createKokoNotifyEmail(
           </table>
       </body>
       </html>
-    `
+    `;
 }
 
 export async function createMintpayNotifyEmail(
-    provider: 'PAYHERE' | 'BANK' | 'KOKO' | 'MINTPAY',
-    status: 'SUCCESS' | 'FAILED' | 'PENDING',
-    data: any
+  provider: "PAYHERE" | "BANK" | "KOKO" | "MINTPAY",
+  status: "SUCCESS" | "FAILED" | "PENDING",
+  data: any
 ) {
-    const order = await getOrderDetails(data.data.order_id)
-    const orderData = order[0].attributes
-    const items = await getItems(order)
-    return `
+  const order = await getOrderDetails(data.data.order_id);
+  const orderData = order[0].attributes;
+  const items = await getItems(order);
+  return `
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -226,7 +226,7 @@ export async function createMintpayNotifyEmail(
                           <tr>
                               <td><strong>Full Name:</strong></td>
                               <td>${
-                                  orderData.firstName + ' ' + orderData.lastName
+                                orderData.firstName + " " + orderData.lastName
                               }</td>
                           </tr>
                           <tr>
@@ -245,8 +245,8 @@ export async function createMintpayNotifyEmail(
                               <td><strong>Items:</strong></td>
                           </tr>
                           ${items.map(
-                              (item: any) =>
-                                  `
+                            (item: any) =>
+                              `
                                 <tr>
                                     <td>${item.name}</td>
                                     </tr>
@@ -254,8 +254,8 @@ export async function createMintpayNotifyEmail(
                                     <td>${item.sku}</td>
                                     </tr>
                                     ${item.content.map(
-                                        (item: any) =>
-                                            `<tr>
+                                      (item: any) =>
+                                        `<tr>
                                             <td>${item}</td>
                                             </tr>
                                         `
@@ -268,22 +268,22 @@ export async function createMintpayNotifyEmail(
           </table>
       </body>
       </html>
-    `
+    `;
 }
 
 export async function createBankNotifyEmail(
-    orderId: string,
-    provider: 'PAYHERE' | 'BANK' | 'KOKO' | 'MINTPAY',
-    status: 'SUCCESS' | 'FAILED' | 'PENDING',
-    amount: number,
-    totalAmount: number,
-    currency: 'LKR' | 'USD'
+  orderId: string,
+  provider: "PAYHERE" | "BANK" | "KOKO" | "MINTPAY",
+  status: "SUCCESS" | "FAILED" | "PENDING",
+  amount: number,
+  totalAmount: number,
+  currency: "LKR" | "USD"
 ) {
-    const order = await getOrderDetails(orderId)
-    const orderData = order[0].attributes
-    const items = await getItems(order)
+  const order = await getOrderDetails(orderId);
+  const orderData = order[0].attributes;
+  const items = await getItems(order);
 
-    return `
+  return `
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -325,7 +325,7 @@ export async function createBankNotifyEmail(
                           <tr>
                               <td><strong>Full Name:</strong></td>
                               <td>${
-                                  orderData.firstName + ' ' + orderData.lastName
+                                orderData.firstName + " " + orderData.lastName
                               }</td>
                           </tr>
                           <tr>
@@ -344,8 +344,8 @@ export async function createBankNotifyEmail(
                               <td><strong>Items:</strong></td>
                           </tr>
                           ${items.map(
-                              (item: any) =>
-                                  `
+                            (item: any) =>
+                              `
                                 <tr>
                                     <td>${item.name}</td>
                                     </tr>
@@ -353,8 +353,8 @@ export async function createBankNotifyEmail(
                                     <td>${item.sku}</td>
                                     </tr>
                                     ${item.content.map(
-                                        (item: any) =>
-                                            `<tr>
+                                      (item: any) =>
+                                        `<tr>
                                             <td>${item}</td>
                                             </tr>
                                         `
@@ -367,11 +367,11 @@ export async function createBankNotifyEmail(
           </table>
       </body>
       </html>
-    `
+    `;
 }
 
 const getItems = async (order: any) => {
-    const items = order[0].attributes.items
-    const sortedItems = getSortedItems(items)
-    return sortedItems
-}
+  const items = order[0].attributes.items;
+  const sortedItems = getSortedItems(items);
+  return sortedItems;
+};
