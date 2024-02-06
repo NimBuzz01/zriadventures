@@ -1,6 +1,6 @@
-import SubHero from '@/components/common/SubHero'
+import SubHero from '@/components/common/sub-hero'
 import React from 'react'
-import MainContent from './MainContent'
+import MainContent from './main-content'
 import Head from 'next/head'
 import { Metadata } from 'next'
 

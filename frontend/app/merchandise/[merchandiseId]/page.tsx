@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Metadata } from 'next'
-import MerchandiseContent from './MerchandiseContent'
+import MerchandiseContent from './merchandise-content'
 import { MERCHANDISE_SHORT_DESCRIPTION_TITLE } from '@/constants/pages/MerchandisePageConstants'
 
 export const metadata: Metadata = {

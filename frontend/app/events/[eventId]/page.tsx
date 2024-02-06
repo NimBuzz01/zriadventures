@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import { EVENTS_SHORT_DESCRIPTION_TITLE } from '@/constants/pages/EventsPageConstants'
 import { Metadata } from 'next'
-import EventContent from './EventContent'
+import EventContent from './event-content'
 
 export const metadata: Metadata = {
     title: 'Events - ZRI Adventures',

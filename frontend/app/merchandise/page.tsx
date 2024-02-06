@@ -1,6 +1,6 @@
-import SubHero from '@/components/common/SubHero'
-import MerchandiseStore from './MerchandiseStore'
-import PageShortDescription from '@/components/common/PageShortDescription'
+import SubHero from '@/components/common/sub-hero'
+import MerchandiseStore from './merchandise-store'
+import PageShortDescription from '@/components/common/page-shortdescription'
 import {
     MERCHANDISE_SHORT_DESCRIPTION_TITLE,
     MERCHANDISE_SHORT_DESCRIPTION_DESCRIPTION,

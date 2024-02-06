@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Metadata } from 'next'
-import ExperienceContent from './ExperienceContent'
+import ExperienceContent from './experience-content'
 import { EXPERIENCE_SHORT_DESCRIPTION_TITLE } from '@/constants/pages/ExperiencesPageConstants'
 
 export const metadata: Metadata = {

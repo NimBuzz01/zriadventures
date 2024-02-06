@@ -1,8 +1,8 @@
-import SubHero from '@/components/common/SubHero'
+import SubHero from '@/components/common/sub-hero'
 import React from 'react'
-import MainInfo from './MainInfo'
-import PageShortDescription from '@/components/common/PageShortDescription'
-import RentalStore from './RentalStore'
+import MainInfo from './main-info'
+import PageShortDescription from '@/components/common/page-shortdescription'
+import RentalStore from './rental-store'
 import {
     RENTALS_HERO_IMAGE,
     RENTALS_SHORT_DESCRIPTION_DESCRIPTION,

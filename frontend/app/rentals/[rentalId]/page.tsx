@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Metadata } from 'next'
-import RentalContent from './RentalContent'
+import RentalContent from './rental-content'
 import { RENTALS_SHORT_DESCRIPTION_TITLE } from '@/constants/pages/RentalPageConstants'
 
 export const metadata: Metadata = {

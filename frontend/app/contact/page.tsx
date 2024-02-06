@@ -1,6 +1,6 @@
-import SubHero from '@/components/common/SubHero'
-import ContactDetails from './ContactDetails'
-import ContactForm from './ContactForm'
+import SubHero from '@/components/common/sub-hero'
+import ContactDetails from './contact-details'
+import ContactForm from './contact-form'
 import {
     CONTACT_HERO_BG_IMAGE,
     CONTACT_HERO_MAIN_TITLE,

@@ -23,6 +23,6 @@
             "@/*": ["./*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/utils/gtag.js", "components/TawkTo.js"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/utils/gtag.js", "components/tawk-to.js"],
     "exclude": ["node_modules"]
 }

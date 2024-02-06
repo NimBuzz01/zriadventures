@@ -1,16 +1,15 @@
-import SubHero from '@/components/common/SubHero'
-import Catalog from './Catalog'
-import ExperienceStore from './ExperienceStore'
-import PageShortDescription from '@/components/common/PageShortDescription'
+import SubHero from '@/components/common/sub-hero'
+import ExperienceStore from './experience-store'
+import PageShortDescription from '@/components/common/page-shortdescription'
 import {
     EXPERIENCE_HERO_MAIN_TITLE,
     EXPERIENCE_HERO_IMAGE,
     EXPERIENCE_SHORT_DESCRIPTION_DESCRIPTION,
     EXPERIENCE_SHORT_DESCRIPTION_TITLE,
 } from '@/constants/pages/ExperiencesPageConstants'
-import ExperienceMap from './ExperienceMap'
-import Activities from './Activities'
-import PageEndContent from '@/components/common/PageEndContent'
+import ExperienceMap from './experience-map'
+import Activities from './experience-activities'
+import PageEndContent from '@/components/common/page-endcontent'
 import Head from 'next/head'
 import { Metadata } from 'next'
 

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Metadata } from 'next'
-import PageContent from './PageContent'
+import PageContent from './page-content'
 
 export const metadata: Metadata = {
     title: 'Checkout - ZRI Adventures',

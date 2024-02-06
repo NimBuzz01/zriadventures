@@ -1,8 +1,8 @@
-import PageShortDescription from '@/components/common/PageShortDescription'
-import SubHero from '@/components/common/SubHero'
+import PageShortDescription from '@/components/common/page-shortdescription'
+import SubHero from '@/components/common/sub-hero'
 import React from 'react'
-import Upcoming from './Upcoming'
-import AllEvents from './AllEvents'
+import UpcomingEvent from './upcoming-event'
+import AllEvents from './all-events'
 import {
     EVENTS_SHORT_DESCRIPTION_TITLE,
     EVENTS_SHORT_DESCRIPTION_DESCRIPTION,
@@ -38,7 +38,7 @@ const Events = () => {
                     title={EVENTS_SHORT_DESCRIPTION_TITLE}
                     description={EVENTS_SHORT_DESCRIPTION_DESCRIPTION}
                 />
-                <Upcoming />
+                <UpcomingEvent />
                 <AllEvents />
             </div>
         </main>

@@ -1,4 +1,4 @@
-import BlurImage from '@/components/common/BlurImage'
+import BlurImage from '@/components/common/blur-image'
 import Link from 'next/link'
 import React from 'react'
 

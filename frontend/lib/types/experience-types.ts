@@ -1,66 +1,77 @@
 import {
-  About,
-  Duration,
-  FAQ,
-  Image,
-  Cost,
-  Requirements,
-} from "./common-types";
-import { VoucherTemplate } from "./voucher-types";
+    About,
+    Duration,
+    FAQ,
+    Image,
+    Cost,
+    Requirements,
+    Location,
+} from './common-types'
+import { VoucherTemplate } from './voucher-types'
 
 export interface ExperienceCategory {
-  name: string;
-  id: string;
-  type: "water" | "land" | "air";
+    name: string
+    id: string
+    type: 'water' | 'land' | 'air'
 }
 
 export interface ExperiencePaxRates {
-  minPax: number;
-  maxPax: number;
-  rates: Cost;
+    minPax: number
+    maxPax: number
+    rates: Cost
 }
 
 export interface ExperienceOptions {
-  duration: Duration;
-  paxRates: ExperiencePaxRates;
-  childCostReduction: Cost;
+    duration: Duration
+    paxRates: ExperiencePaxRates
+    childCostReduction: Cost
 }
 
 export interface ExperienceExtras {
-  id: string;
-  name: string;
-  cost: Cost;
-  quantity: number;
+    id: string
+    name: string
+    cost: Cost
+    quantity: number
 }
 
 export interface ExperienceTypes {
-  name: string;
-  id: string;
-  category: ExperienceCategory[];
-  location: Location;
-  difficulty: string;
-  options: ExperienceOptions[];
-  images: Image[];
-  about: About;
-  included: string[];
-  extras: ExperienceExtras[];
-  requirements: Requirements[];
-  faq: FAQ[];
-  terms: string[];
-  suitedVoucher: VoucherTemplate[];
-  trending: boolean;
-  offer: number | null;
-  bundle: boolean;
+    name: string
+    id: string
+    category: ExperienceCategory[]
+    location: Location
+    difficulty: string
+    options: ExperienceOptions[]
+    images: Image[]
+    about: About
+    included: string[]
+    extras: ExperienceExtras[]
+    requirements: Requirements[]
+    faq: FAQ[]
+    terms: string[]
+    suitedVoucher: VoucherTemplate[]
+    trending: boolean
+    offer: number | null
+    bundle: boolean
 }
 
 export interface ExperienceCartItem {
-  id: string;
-  date: Date;
-  checkInTime: string;
-  duration: Duration;
-  adults: number;
-  children: number;
-  requests: string;
-  experience: ExperienceTypes;
-  extras: ExperienceExtras[];
+    id: string
+    date: Date
+    checkInTime: string
+    duration: Duration
+    adults: number
+    children: number
+    requests: string
+    experience: ExperienceTypes
+    extras: ExperienceExtras[]
+}
+
+export interface RefactoredExperienceCartItem {
+    startDate: Date
+    checkInTime: string
+    adults: number
+    children: number
+    requests: string
+    extras: { name: string; quantity: number }[]
+    total: Cost
 }
