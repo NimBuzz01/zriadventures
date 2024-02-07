@@ -1,5 +1,5 @@
 'use client'
-import { AiOutlineClose, AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { useEffect, useState } from 'react'
 import NotFoundLabel from './notfound-label'
 import MainButton from './common/main-button'
@@ -9,32 +9,22 @@ import EventSideCartCard from './cards/sidecart-cards/event-sidecartcard'
 import MerchandiseSideCartCard from './cards/sidecart-cards/merchandise-sidecartcard'
 import VoucherSideCartCard from './cards/sidecart-cards/voucher-sidecartcard'
 import RentalSideCartCard from './cards/sidecart-cards/rental-sidecartcard'
+import { calculateTotalAmount } from '@/lib/utils'
 import {
-    calcOffer,
-    calculateExperienceTotal,
-    calculateTotalAmount,
-} from '@/lib/utils'
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+    SheetClose,
+} from '@/components/ui/sheet'
 
 const CartSidebar: React.FC = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false)
     const [cartItems, setCartItems] = useState<any[]>([])
-    const [isVisible, setIsVisible] = useState<boolean>(isOpen)
     const { local, key } = useLocal()
 
     // Calculate the total price from cartItems
     const [totalPrice, setTotalPrice] = useState({ USD: 0, LKR: 0 })
-
-    useEffect(() => {
-        setIsVisible(isOpen)
-    }, [isOpen])
-
-    const handleOpen = () => {
-        setIsOpen(true)
-    }
-
-    const handleClose = () => {
-        setIsOpen(false)
-    }
 
     useEffect(() => {
         const storedCartItems = localStorage.getItem('Cart')
@@ -57,19 +47,9 @@ const CartSidebar: React.FC = () => {
         setTotalPrice(calculateTotalAmount(cartItems))
     }, [cartItems])
 
-    const handleTransitionEnd = () => {
-        if (!isOpen) {
-            setIsVisible(false)
-        }
-    }
-
     return (
-        <>
-            <button
-                className="relative text-2xl text-white transition-all hover:text-blue-500"
-                onClick={handleOpen}
-                key={key}
-            >
+        <Sheet>
+            <SheetTrigger className="relative text-2xl text-white transition-all hover:text-blue-500">
                 <AiOutlineShoppingCart />
                 {cartItems.length > -1 && (
                     <span
@@ -79,26 +59,11 @@ const CartSidebar: React.FC = () => {
                         {cartItems.length}
                     </span>
                 )}
-            </button>
-            <div
-                className={`fixed right-0 top-0 z-[1000] flex h-screen w-full flex-col bg-gray-50 px-2 py-6 transition-all sm:px-6 md:w-[500px] ${
-                    isVisible ? 'translate-x-0' : 'translate-x-full'
-                }`}
-                onTransitionEnd={handleTransitionEnd}
-            >
-                <div className="mx-2 flex items-center justify-between border-b-2 border-gray-200 pb-2">
-                    <h2 className="text-xl font-semibold text-blue-950">
-                        My Cart
-                    </h2>
-                    <div className="flex justify-end">
-                        <button
-                            className="rounded-lg text-2xl text-blue-950 transition-all hover:bg-gray-100/80"
-                            onClick={handleClose}
-                        >
-                            <AiOutlineClose />
-                        </button>
-                    </div>
-                </div>
+            </SheetTrigger>
+            <SheetContent className="z-[1000] flex w-full flex-col sm:max-w-[450px]">
+                <SheetHeader className="text-xl font-semibold text-blue-950">
+                    <SheetTitle>My Cart</SheetTitle>
+                </SheetHeader>
                 <div className="flex flex-col gap-2 overflow-y-auto px-2 py-4 scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-800">
                     {cartItems.length === 0 ? (
                         <NotFoundLabel text="No items in the cart." />
@@ -154,16 +119,12 @@ const CartSidebar: React.FC = () => {
                             </h5>
                         </div>
                     </div>
-                    <MainButton
-                        href="/cart"
-                        text="View Cart"
-                        onClick={() => {
-                            setIsOpen(false)
-                        }}
-                    />
+                    <SheetClose asChild>
+                        <MainButton href="/cart" text="View Cart" />
+                    </SheetClose>
                 </div>
-            </div>
-        </>
+            </SheetContent>
+        </Sheet>
     )
 }
 

@@ -51,7 +51,7 @@ const Footer = () => {
                         </div>
                         <h3 className="text-2xl">{ZRI_NAME}</h3>
                         <p className="text-sm">{ZRI_ADDRESS}</p>
-                        <div className="my-3 flex gap-3 text-2xl">
+                        <div className="flex gap-3 my-3 text-2xl">
                             <Link
                                 href={WHATSAPP_LINK}
                                 className="transition-all hover:text-blue-500"
@@ -152,7 +152,7 @@ const Footer = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                     <p className="font-light transition-all">PAYMENT VENDORS</p>
-                    <div className="flex items-center gap-2 rounded-md bg-white">
+                    <div className="flex items-center gap-2 bg-white rounded-md">
                         <Link href="https://payhere.lk/" target="_blank">
                             <Image
                                 src="/logos/payherelogo.png"
@@ -179,11 +179,23 @@ const Footer = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="mt-3 flex flex-col gap-6 lg:mb-2 lg:mt-1">
+                <div className="flex flex-col gap-6 mt-3 lg:mb-2 lg:mt-1">
                     <div>
                         <p className="font-light">CALL</p>
-                        <p className="text-xl">{ZRI_CONTACT_NUMBER_1}</p>
-                        <p className="text-xl">{ZRI_CONTACT_NUMBER_2}</p>
+                        <div className="flex flex-col">
+                            <a
+                                className="text-xl"
+                                href={`tel:${ZRI_CONTACT_NUMBER_1}`}
+                            >
+                                {ZRI_CONTACT_NUMBER_1}
+                            </a>
+                            <a
+                                className="text-xl"
+                                href={`tel:${ZRI_CONTACT_NUMBER_2}`}
+                            >
+                                {ZRI_CONTACT_NUMBER_2}
+                            </a>
+                        </div>
                     </div>
                     <Link href={WHATSAPP_LINK} target="_blank">
                         <div className="flex items-center gap-2">
@@ -203,7 +215,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col justify-between gap-1 border-t-2 py-2 text-sm sm:flex-row sm:py-4 lg:flex-row">
+            <div className="flex flex-col justify-between gap-1 py-2 text-sm border-t-2 sm:flex-row sm:py-4 lg:flex-row">
                 <div>{ZRI_NAME}</div>
                 {/* <div>Designed by Niamat Marjan</div> */}
                 <Link

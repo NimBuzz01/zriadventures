@@ -25,17 +25,17 @@ import BlurImage from '@/components/common/blur-image'
 
 const About = () => {
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center gap-16 bg-[url('/mountains-bg.png')] bg-cover py-16">
+        <div className="flex flex-col items-center justify-center min-h-screen gap-16 py-16 bg-cover bg-gray-50 backdrop:blur-xl">
             <MainHeader
                 subtitle={LANDING_ABOUT_SUB_TITLE}
                 title={LANDING_ABOUT_MAIN_TITLE}
             />
-            <div className="relative flex min-h-[1000px] w-full flex-col justify-center lg:h-[730px] lg:flex-row">
+            <div className="relative flex w-full flex-col justify-center lg:h-[730px] lg:flex-row">
                 <div className="z-20 flex min-h-[550px] w-full flex-col  items-center justify-center gap-8 bg-white p-6 py-8 lg:absolute lg:w-[50%] lg:-translate-x-1/3 lg:border-[1px] lg:px-10 xl:w-[50%] xl:max-w-[700px]">
                     <h1 className="mb-2 text-2xl font-semibold text-blue-500 md:text-3xl">
                         {LANDING_ABOUT_CONTENT_TITLE}
                     </h1>
-                    <div className="ml-2 block w-32 self-start border-t-4 border-blue-500"></div>
+                    <div className="self-start block w-32 ml-2 border-t-4 border-blue-500"></div>
                     <p>{LANDING_ABOUT_CONTENT_DESCRIPTION}</p>
                     <MainButton
                         href={LANDING_ABOUT_CONTENT_BUTTON_URL}
