@@ -10,6 +10,8 @@ import MainHeader from '@/components/common/main-header'
 import { testimonialData } from '@/lib/data/testimonial-data'
 import { ElfsightWidget } from 'react-elfsight-widget'
 import { TRIPADVISOR_WIDGET_ID } from '@/app.config'
+import Loading from '@/components/loading'
+import { Suspense } from 'react'
 
 const Testimonials = () => {
     return (
@@ -24,29 +26,31 @@ const Testimonials = () => {
                     <TripAdvisorBadge />
                 </div> */}
                 <div className="mt-1 w-full lg:w-[90%]">
-                    <Carousel
-                        perView={1.1}
-                        sm={1.65}
-                        md={2.4}
-                        lg={2.4}
-                        xl={3}
-                        xl2={3.8}
-                        spacing={10}
-                        arrows
-                        dots
-                    >
-                        {testimonialData.map((testimonial, index) => (
-                            <div key={index}>
-                                <TestimonialCard
-                                    name={testimonial.name}
-                                    location={testimonial.location}
-                                    stars={testimonial.stars}
-                                    review={testimonial.review}
-                                    image={testimonial.image}
-                                />
-                            </div>
-                        ))}
-                    </Carousel>
+                    <Suspense fallback={<Loading />}>
+                        <Carousel
+                            perView={1.1}
+                            sm={1.65}
+                            md={2.4}
+                            lg={2.4}
+                            xl={3}
+                            xl2={3.8}
+                            spacing={10}
+                            arrows
+                            dots
+                        >
+                            {testimonialData.map((testimonial, index) => (
+                                <div key={index}>
+                                    <TestimonialCard
+                                        name={testimonial.name}
+                                        location={testimonial.location}
+                                        stars={testimonial.stars}
+                                        review={testimonial.review}
+                                        image={testimonial.image}
+                                    />
+                                </div>
+                            ))}
+                        </Carousel>
+                    </Suspense>
                 </div>
             </div>
         </div>

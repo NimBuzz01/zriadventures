@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import MainHeader from '@/components/common/main-header'
 import { useDataContext } from '@/contexts/data-context'
 import NotFoundLabel from '@/components/notfound-label'
@@ -10,6 +10,7 @@ import Pagination from '@/components/pagination-bar'
 import { useRouter } from 'next/navigation'
 import SearchBar from '@/components/common/search-bar'
 import { RentalTypes } from '@/lib/types/rental-types'
+import Loading from '@/components/loading'
 
 const RentalStore = () => {
     const { rentals } = useDataContext()
@@ -97,22 +98,24 @@ const RentalStore = () => {
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />
-                    {currentRentals.length > 0 ? (
-                        <div
-                            className="flex flex-wrap items-center justify-center gap-4 py-4"
-                            id="experience-store-items"
-                        >
-                            {currentRentals.map((rental: RentalTypes) => (
-                                <RentalsCard
-                                    key={rental.id}
-                                    rental={rental}
-                                    width="w-72"
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <NotFoundLabel text="Sorry! No search results found" />
-                    )}
+                    <Suspense fallback={<Loading />}>
+                        {currentRentals.length > 0 ? (
+                            <div
+                                className="flex flex-wrap items-center justify-center gap-4 py-4"
+                                id="experience-store-items"
+                            >
+                                {currentRentals.map((rental: RentalTypes) => (
+                                    <RentalsCard
+                                        key={rental.id}
+                                        rental={rental}
+                                        width="w-72"
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <NotFoundLabel text="Sorry! No search results found" />
+                        )}
+                    </Suspense>
                     <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}

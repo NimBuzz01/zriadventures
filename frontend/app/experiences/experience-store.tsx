@@ -1,6 +1,6 @@
 'use client'
 import ExperienceCard from '@/components/cards/experience-card'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import ExperienceFilters from './experience-filters'
 import MainHeader from '@/components/common/main-header'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -9,6 +9,7 @@ import NotFoundLabel from '@/components/notfound-label'
 import { useLocal } from '@/contexts/local-context'
 import Pagination from '@/components/pagination-bar'
 import SearchBar from '@/components/common/search-bar'
+import Loading from '@/components/loading'
 
 const ExperienceStore = () => {
     const { experiences } = useDataContext()
@@ -168,19 +169,21 @@ const ExperienceStore = () => {
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />
-                    {currentExperiences.length > 0 ? (
-                        <div className="flex flex-wrap items-center justify-center gap-4 py-4">
-                            {currentExperiences.map((experience) => (
-                                <ExperienceCard
-                                    key={experience.id}
-                                    experience={experience}
-                                    width="w-[22rem] sm:w-96"
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <NotFoundLabel text="Sorry! No search results found" />
-                    )}
+                    <Suspense fallback={<Loading />}>
+                        {currentExperiences.length > 0 ? (
+                            <div className="flex flex-wrap items-center justify-center gap-4 py-4">
+                                {currentExperiences.map((experience) => (
+                                    <ExperienceCard
+                                        key={experience.id}
+                                        experience={experience}
+                                        width="w-[22rem] sm:w-96"
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <NotFoundLabel text="Sorry! No search results found" />
+                        )}
+                    </Suspense>
                     <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}

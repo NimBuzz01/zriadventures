@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import MainHeader from '@/components/common/main-header'
 import MerchandiseCard from '@/components/cards/merchandise-card'
 import MerchandiseFilters from './merchandise-filters'
@@ -10,6 +10,7 @@ import Pagination from '@/components/pagination-bar'
 import { useRouter } from 'next/navigation'
 import SearchBar from '@/components/common/search-bar'
 import { MerchandiseTypes } from '@/lib/types/merchandise-types'
+import Loading from '@/components/loading'
 
 const MerchandiseStore = () => {
     const { merchandise } = useDataContext()
@@ -103,24 +104,26 @@ const MerchandiseStore = () => {
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />
-                    {currentMerchandise.length > 0 ? (
-                        <div
-                            className="flex flex-wrap items-center justify-center gap-4 py-4"
-                            id="experience-store-items"
-                        >
-                            {currentMerchandise.map(
-                                (merchandise: MerchandiseTypes) => (
-                                    <MerchandiseCard
-                                        key={merchandise.id}
-                                        merchandise={merchandise}
-                                        width="w-72"
-                                    />
-                                )
-                            )}
-                        </div>
-                    ) : (
-                        <NotFoundLabel text="Sorry! No search results found" />
-                    )}
+                    <Suspense fallback={<Loading />}>
+                        {currentMerchandise.length > 0 ? (
+                            <div
+                                className="flex flex-wrap items-center justify-center gap-4 py-4"
+                                id="experience-store-items"
+                            >
+                                {currentMerchandise.map(
+                                    (merchandise: MerchandiseTypes) => (
+                                        <MerchandiseCard
+                                            key={merchandise.id}
+                                            merchandise={merchandise}
+                                            width="w-72"
+                                        />
+                                    )
+                                )}
+                            </div>
+                        ) : (
+                            <NotFoundLabel text="Sorry! No search results found" />
+                        )}
+                    </Suspense>
                     <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}

@@ -3,7 +3,8 @@ import NotFoundLabel from '@/components/notfound-label'
 import EventCard from '@/components/cards/event-card'
 import MainHeader from '@/components/common/main-header'
 import { useDataContext } from '@/contexts/data-context'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
+import Loading from '@/components/loading'
 
 const AllEvents = () => {
     const { events } = useDataContext()
@@ -59,19 +60,21 @@ const AllEvents = () => {
                     </button>
                 </div>
                 <div className="flex w-full flex-wrap justify-center gap-5">
-                    {filteredEvents.length > 0 ? (
-                        <>
-                            {filteredEvents.map((event) => (
-                                <EventCard
-                                    event={event}
-                                    key={event.id}
-                                    width="w-96"
-                                />
-                            ))}
-                        </>
-                    ) : (
-                        <NotFoundLabel text="No Events Found!" />
-                    )}
+                    <Suspense fallback={<Loading />}>
+                        {filteredEvents.length > 0 ? (
+                            <>
+                                {filteredEvents.map((event) => (
+                                    <EventCard
+                                        event={event}
+                                        key={event.id}
+                                        width="w-96"
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <NotFoundLabel text="No Events Found!" />
+                        )}
+                    </Suspense>
                 </div>
             </div>
         </div>

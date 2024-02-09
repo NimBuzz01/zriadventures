@@ -14,6 +14,8 @@ import NotFoundLabel from '@/components/notfound-label'
 import { MERCHANDISE_NOT_FOUND } from '@/constants/NotFoundConstants'
 import SVGWave from '@/components/common/svg-wave'
 import { MerchandiseTypes } from '@/lib/types/merchandise-types'
+import Loading from '@/components/loading'
+import { Suspense } from 'react'
 
 const Merchandise = () => {
     const { merchandise } = useDataContext()
@@ -29,28 +31,30 @@ const Merchandise = () => {
                 title={LANDING_MERCHANDISE_MAIN_TITLE}
             />
             <div className="z-10 flex w-full flex-col items-center justify-center sm:w-[90%]">
-                {trendingMerchandise.length > 0 ? (
-                    <Carousel
-                        perView={1.1}
-                        sm={1.9}
-                        md={2.3}
-                        lg={3.1}
-                        xl={4}
-                        xl2={5.1}
-                        spacing={10}
-                        arrows
-                        dots
-                    >
-                        {trendingMerchandise.map((merchandise) => (
-                            <MerchandiseCard
-                                key={merchandise.id}
-                                merchandise={merchandise}
-                            />
-                        ))}
-                    </Carousel>
-                ) : (
-                    <NotFoundLabel text={MERCHANDISE_NOT_FOUND} />
-                )}
+                <Suspense fallback={<Loading />}>
+                    {trendingMerchandise.length > 0 ? (
+                        <Carousel
+                            perView={1.1}
+                            sm={1.9}
+                            md={2.3}
+                            lg={3.1}
+                            xl={4}
+                            xl2={5.1}
+                            spacing={10}
+                            arrows
+                            dots
+                        >
+                            {trendingMerchandise.map((merchandise) => (
+                                <MerchandiseCard
+                                    key={merchandise.id}
+                                    merchandise={merchandise}
+                                />
+                            ))}
+                        </Carousel>
+                    ) : (
+                        <NotFoundLabel text={MERCHANDISE_NOT_FOUND} />
+                    )}
+                </Suspense>
             </div>
             <MainButton
                 href={LANDING_MERCHANDISE_BUTTON_URL}

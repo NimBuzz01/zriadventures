@@ -14,6 +14,8 @@ import MainButton from '../../components/common/main-button'
 import { EXPERIENCES_NOT_FOUND } from '@/constants/NotFoundConstants'
 import SVGWave from '@/components/common/svg-wave'
 import { ExperienceTypes } from '@/lib/types/experience-types'
+import { Suspense } from 'react'
+import Loading from '@/components/loading'
 
 const Experience = () => {
     const { experiences } = useDataContext()
@@ -28,30 +30,32 @@ const Experience = () => {
                 title={LANDING_TRENDING_MAIN_TITLE}
             />
             <div className="z-10 w-full sm:w-[90%]">
-                {trendingExperiences.length > 0 ? (
-                    <Carousel
-                        perView={1}
-                        sm={1.55}
-                        md={1.8}
-                        lg={2.5}
-                        xl={3.1}
-                        xl2={3.8}
-                        spacing={10}
-                        arrows
-                        dots
-                    >
-                        {trendingExperiences.map(
-                            (experience: ExperienceTypes) => (
-                                <ExperienceCard
-                                    key={experience.id}
-                                    experience={experience}
-                                />
-                            )
-                        )}
-                    </Carousel>
-                ) : (
-                    <NotFoundLabel text={EXPERIENCES_NOT_FOUND} />
-                )}
+                <Suspense fallback={<Loading />}>
+                    {trendingExperiences.length > 0 ? (
+                        <Carousel
+                            perView={1}
+                            sm={1.55}
+                            md={1.8}
+                            lg={2.5}
+                            xl={3.1}
+                            xl2={3.8}
+                            spacing={10}
+                            arrows
+                            dots
+                        >
+                            {trendingExperiences.map(
+                                (experience: ExperienceTypes) => (
+                                    <ExperienceCard
+                                        key={experience.id}
+                                        experience={experience}
+                                    />
+                                )
+                            )}
+                        </Carousel>
+                    ) : (
+                        <NotFoundLabel text={EXPERIENCES_NOT_FOUND} />
+                    )}
+                </Suspense>
             </div>
             <MainButton
                 href={LANDING_TRENDING_BUTTON_URL}

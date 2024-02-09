@@ -11,9 +11,10 @@ import {
 import MainHeader from '@/components/common/main-header'
 import NotFoundLabel from '@/components/notfound-label'
 import { DESTINATIONS_NOT_FOUND } from '@/constants/NotFoundConstants'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { getExperienceLocationData } from '@/lib/data/experience-data'
 import { Location } from '@/lib/types/common-types'
+import Loading from '@/components/loading'
 
 const Destinations = () => {
     const [locations, setLocations] = useState<Location[]>([])
@@ -41,36 +42,38 @@ const Destinations = () => {
                 title={LANDING_DESTINATIONS_MAIN_TITLE}
             />
             <div className="w-full sm:w-[90%]">
-                {locations.length > 0 ? (
-                    <Carousel
-                        perView={1}
-                        sm={1.5}
-                        md={2.2}
-                        lg={2.8}
-                        xl={3.4}
-                        xl2={4.3}
-                        spacing={10}
-                        dots
-                        arrows
-                    >
-                        {locations.map((location, index: number) => (
-                            <DestinationCard
-                                key={index}
-                                name={location.name}
-                                description={location.description}
-                                href={
-                                    '/experiences?destination=' +
-                                    location.id +
-                                    '#experience-store-items'
-                                }
-                                src={location.image.src}
-                                alt={location.image.alt}
-                            />
-                        ))}
-                    </Carousel>
-                ) : (
-                    <NotFoundLabel text={DESTINATIONS_NOT_FOUND} />
-                )}
+                <Suspense fallback={<Loading />}>
+                    {locations.length > 0 ? (
+                        <Carousel
+                            perView={1}
+                            sm={1.5}
+                            md={2.2}
+                            lg={2.8}
+                            xl={3.4}
+                            xl2={4.3}
+                            spacing={10}
+                            dots
+                            arrows
+                        >
+                            {locations.map((location, index: number) => (
+                                <DestinationCard
+                                    key={index}
+                                    name={location.name}
+                                    description={location.description}
+                                    href={
+                                        '/experiences?destination=' +
+                                        location.id +
+                                        '#experience-store-items'
+                                    }
+                                    src={location.image.src}
+                                    alt={location.image.alt}
+                                />
+                            ))}
+                        </Carousel>
+                    ) : (
+                        <NotFoundLabel text={DESTINATIONS_NOT_FOUND} />
+                    )}
+                </Suspense>
             </div>
 
             <MainButton

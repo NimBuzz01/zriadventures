@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import BaseSkeleton from '../skeletons/base-skeleton'
 import BlurImage from '../common/blur-image'
 import { useLocal } from '@/contexts/local-context'
@@ -42,6 +42,7 @@ const MerchandiseCard = ({ merchandise, width = 'w-full' }: Props) => {
     }, [merchandise.options])
 
     return (
+        <Suspense fallback={<BaseSkeleton />}>
         <Link
             href={`/merchandise/${encodeURIComponent(merchandise.id)}`}
             key={merchandise.id}
@@ -120,7 +121,7 @@ const MerchandiseCard = ({ merchandise, width = 'w-full' }: Props) => {
             ) : (
                 <BaseSkeleton />
             )}
-        </Link>
+        </Link></Suspense>
     )
 }
 
