@@ -39,8 +39,6 @@ export default function Experiences() {
                     title={EXPERIENCE_SHORT_DESCRIPTION_TITLE}
                     description={EXPERIENCE_SHORT_DESCRIPTION_DESCRIPTION}
                 />
-                {/* <Catalog /> */}
-                {/* <Bundles /> */}
                 <Activities />
                 <ExperienceMap />
                 <ExperienceStore />

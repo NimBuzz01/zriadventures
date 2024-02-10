@@ -138,15 +138,14 @@ const ExperienceCartCard = ({ item, onDelete }: Props) => {
                     </div>
                 )}
                 {experienceItem.extras.length > 0 && (
-                    <div className="mt-4">
+                    <div className="mt-4 w-full">
                         <p className="text-xs uppercase text-gray-500">
                             Extras
                         </p>
                         {experienceItem.extras.map((item, index) => (
                             <div key={index} className="w-full">
-                                <span className="inline-flex w-32 ">
-                                    {item.name}
-                                </span>{' '}
+                                <span className="inline-flex">{item.name}</span>
+                                {': '}
                                 {item.quantity} Pax
                             </div>
                         ))}

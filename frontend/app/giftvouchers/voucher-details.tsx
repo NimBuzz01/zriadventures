@@ -53,10 +53,10 @@ const VoucherDetails = ({ setCurrentStep, currentStep }: Props) => {
     }
 
     useEffect(() => {
-        const storedCartItems = localStorage.getItem('Gift')
+        const storedCartItems = localStorage.getItem('GIFT')
         if (storedCartItems) {
             voucherActions.setSelectedExperience(JSON.parse(storedCartItems))
-            localStorage.removeItem('Gift')
+            localStorage.removeItem('GIFT')
             setSuccess(true)
             setKey()
             router.push('#voucher-config')
@@ -671,7 +671,7 @@ const VoucherDetails = ({ setCurrentStep, currentStep }: Props) => {
                 !success && (
                     <Reservation
                         experience={selectedExperience}
-                        addType="gift"
+                        addType="GIFT"
                     />
                 )}
         </>

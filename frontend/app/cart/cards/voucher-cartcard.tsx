@@ -202,9 +202,10 @@ const VoucherCartCard = ({ item, onDelete }: Props) => {
                                                         key={index}
                                                         className="w-full"
                                                     >
-                                                        <span className="inline-flex w-32 ">
+                                                        <span className="inline-flex">
                                                             {item.name}
-                                                        </span>{' '}
+                                                        </span>
+                                                        {': '}
                                                         {item.quantity} Pax
                                                     </div>
                                                 )

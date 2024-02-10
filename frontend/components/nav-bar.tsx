@@ -41,6 +41,16 @@ const NavBar: React.FC = () => {
     const [scrolling, setScrolling] = useState<boolean>(false)
     const [isVisible, setIsVisible] = useState<boolean>(isMenuOpen)
 
+    useEffect(() => {
+        if (
+            pathname === '/reservation' ||
+            pathname === '/checkout' ||
+            pathname === '/cart'
+        ) {
+            setScrolling(true)
+        }
+    }, [pathname])
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }

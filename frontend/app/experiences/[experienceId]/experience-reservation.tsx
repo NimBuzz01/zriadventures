@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
     experience: ExperienceTypes
-    addType: 'cart' | 'buy' | 'gift'
+    addType: 'ADDTOCART' | 'BUYNOW' | 'GIFT' | null
 }
 
 interface InputErrors {
@@ -43,7 +43,7 @@ const Reservation = ({ experience, addType }: Props) => {
         checkInTime,
         requests,
         extras,
-        experiences,
+        selectedExperiences,
         selectedDuration,
         setAdults,
         setChild,
@@ -51,13 +51,13 @@ const Reservation = ({ experience, addType }: Props) => {
         setCheckInTime,
         setRequests,
         setExtras,
-        setExperiences,
+        setSelectedExperiences,
         setSelectedDuration,
         resetContext,
     } = useExperience()
 
     useEffect(() => {
-        if (addType === 'gift') {
+        if (addType === 'GIFT') {
             setCheckInTime('11:11am')
         }
     }, [])
@@ -93,14 +93,14 @@ const Reservation = ({ experience, addType }: Props) => {
                 adults: adults,
                 children: child,
                 requests: requests,
-                experience: experiences[0],
+                experience: selectedExperiences[0],
                 extras: extras,
             },
             itemType: 'EXPERIENCE',
         }
 
-        if (addType === 'gift') {
-            localStorage.setItem('Gift', JSON.stringify(cartItem))
+        if (addType === 'GIFT') {
+            localStorage.setItem('GIFT', JSON.stringify(cartItem))
             setSuccess(true)
             setKey()
             return
@@ -126,15 +126,15 @@ const Reservation = ({ experience, addType }: Props) => {
             extra.quantity = 0
         })
 
-        if (addType === 'buy') {
+        if (addType === 'BUYNOW') {
             router.push('/cart')
-        } else if (addType === 'cart') {
+        } else if (addType === 'ADDTOCART') {
             router.push('#success-cart')
         }
     }
 
     useEffect(() => {
-        setExperiences([experience])
+        setSelectedExperiences([experience])
         setSelectedDuration(experience.options[0].duration)
     }, [])
 
@@ -409,7 +409,7 @@ const Reservation = ({ experience, addType }: Props) => {
                             </div>
                         )}
                         <div className="flex flex-col lg:flex-row">
-                            {addType !== 'gift' && (
+                            {addType !== 'GIFT' && (
                                 <div className="flex flex-col justify-center">
                                     <div className="mt-4 flex flex-col lg:mt-0 lg:p-4">
                                         <p className="mb-1 text-xs font-medium text-gray-500 sm:text-sm">
@@ -529,7 +529,7 @@ const Reservation = ({ experience, addType }: Props) => {
                                 onClick={handleSubmit}
                                 className="mt-2 bg-green-600 px-5 py-3 text-base font-semibold uppercase text-white transition-all hover:bg-green-800 sm:mt-0 sm:text-lg"
                             >
-                                {addType === 'buy'
+                                {addType === 'BUYNOW'
                                     ? 'Proceed to Checkout'
                                     : 'Add to Cart'}
                             </button>

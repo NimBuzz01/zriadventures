@@ -10,14 +10,18 @@ import { InfoIcon } from 'lucide-react'
 import MainButton from '@/components/common/main-button'
 import Markdown from 'react-markdown'
 import { ExperienceTypes } from '@/lib/types/experience-types'
+import { useRouter } from 'next/navigation'
 
 interface Props {
     experience: ExperienceTypes
 }
 
 const PageContent = ({ experience }: Props) => {
+    const router = useRouter()
     const [imageLoaded, setImageLoaded] = useState(false)
-    const [reservation, setReservation] = useState<'cart' | 'buy' | ''>('')
+    const [reservation, setReservation] = useState<
+        'ADDTOCART' | 'BUYNOW' | 'GIFT' | null
+    >(null)
 
     useEffect(() => {
         if (experience) {
@@ -202,15 +206,17 @@ const PageContent = ({ experience }: Props) => {
                             <MainButton
                                 text={'Book Now'}
                                 onClick={() => {
-                                    setReservation('buy')
-                                    window.scrollTo(0, 0)
+                                    router.push(
+                                        `/reservation?itemType=experience&itemId=${experience.id}&reservation=buynow`
+                                    )
                                 }}
                             />
                             <MainButton
                                 text={'Add to Cart'}
                                 onClick={() => {
-                                    setReservation('cart')
-                                    window.scrollTo(0, 0)
+                                    router.push(
+                                        `/reservation?itemType=experience&itemId=${experience.id}&reservation=addtocart`
+                                    )
                                 }}
                                 bgColor="bg-gray-600 group-hover:bg-gray-800"
                             />

@@ -11,6 +11,7 @@ import { Toaster } from 'sonner'
 import FacebookPixel from '@/components/facebook-pixel'
 import GoogleAnalytics from '@/components/google-analytics'
 import TawkTo from '@/components/tawk-to'
+import { ExperienceProvider } from '@/contexts/experience-context'
 
 const rubik = Rubik({
     weight: ['300', '400', '500', '600', '700', '800', '900'],
@@ -38,19 +39,21 @@ export default function RootLayout({
                 <LocalProvider>
                     <DataProvider>
                         <CheckoutProvider>
-                            <NavBar />
-                            <ScrollToTopButton />
-                            <GoogleAnalytics />
-                            <FacebookPixel />
-                            {children}
-                            <Footer />
-                            <TawkTo />
-                            <Toaster
-                                richColors
-                                position="top-center"
-                                expand
-                                closeButton
-                            />
+                            <ExperienceProvider>
+                                <NavBar />
+                                <ScrollToTopButton />
+                                <GoogleAnalytics />
+                                <FacebookPixel />
+                                {children}
+                                <Footer />
+                                <TawkTo />
+                                <Toaster
+                                    richColors
+                                    position="top-center"
+                                    expand
+                                    closeButton
+                                />
+                            </ExperienceProvider>
                         </CheckoutProvider>
                     </DataProvider>
                 </LocalProvider>
