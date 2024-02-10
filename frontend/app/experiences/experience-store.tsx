@@ -133,6 +133,9 @@ const ExperienceStore = () => {
                 matchesDuration
             )
         })
+        if (experiences.length > 0) {
+            setFilteredExperiences(filteredExperiences)
+        }
     }, [experiences])
 
     const totalPages = Math.ceil(
@@ -160,12 +163,12 @@ const ExperienceStore = () => {
 
     return (
         <div
-            className="flex w-full flex-col items-center justify-center px-2 py-10 sm:px-10"
+            className="flex flex-col items-center justify-center w-full px-2 py-10 sm:px-10"
             id="experience-store-items"
         >
             <MainHeader subtitle="All in one" title="Our Experiences" />
             <div className="w-full border-t-2 border-gray-200"></div>
-            <div className="flex w-full flex-col lg:flex-row">
+            <div className="flex flex-col w-full lg:flex-row">
                 <div className="mb-5 w-full lg:mb-0 lg:w-[500px]">
                     <ExperienceFilters
                         selectedCategory={selectedCategory}
@@ -184,7 +187,7 @@ const ExperienceStore = () => {
                         setSelectedDuration={setSelectedDuration}
                     />
                 </div>
-                <div className="flex w-full flex-col items-center px-2">
+                <div className="flex flex-col items-center w-full px-2">
                     <SearchBar
                         value={searchQuery}
                         onChange={handleSearchChange}
