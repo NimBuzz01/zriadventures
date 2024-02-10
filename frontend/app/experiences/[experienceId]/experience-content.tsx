@@ -8,6 +8,7 @@ import {
     EXPERIENCE_NEARBY_EXPERIENCE_MAIN_TITLE,
 } from '@/constants/pages/ExperiencesPageConstants'
 import { ExperienceTypes } from '@/lib/types/experience-types'
+import Loading from '@/components/loading'
 
 const SubHero = lazy(() => import('@/components/common/sub-hero'))
 const ExperienceCard = lazy(() => import('@/components/cards/experience-card'))
@@ -39,8 +40,8 @@ const ExperienceContent = ({ experienceId }: { experienceId: string }) => {
 
     if (loading) {
         return (
-            <div className="h-screen w-full">
-                <NotFoundLabel text="Loading..." loading />
+            <div className="flex h-screen w-full items-center justify-center">
+                <Loading />
             </div>
         )
     }
@@ -49,7 +50,7 @@ const ExperienceContent = ({ experienceId }: { experienceId: string }) => {
         <Suspense
             fallback={
                 <div className="h-screen w-full">
-                    <NotFoundLabel text="Loading..." loading />
+                    <Loading />
                 </div>
             }
         >

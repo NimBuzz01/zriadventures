@@ -15,14 +15,23 @@ import { MERCHANDISE_NOT_FOUND } from '@/constants/NotFoundConstants'
 import SVGWave from '@/components/common/svg-wave'
 import { MerchandiseTypes } from '@/lib/types/merchandise-types'
 import Loading from '@/components/loading'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 const Merchandise = () => {
+    const [trendingMerchandise, setTrendingMerchandise] = useState<
+        MerchandiseTypes[] | null
+    >(null)
+
     const { merchandise } = useDataContext()
 
-    const trendingMerchandise = merchandise.filter(
-        (merchandise: MerchandiseTypes) => merchandise.trending
-    )
+    useEffect(() => {
+        const trendingMerchandise = merchandise.filter(
+            (merchandise: MerchandiseTypes) => merchandise.trending
+        )
+        if (merchandise.length > 0) {
+            setTrendingMerchandise(trendingMerchandise)
+        }
+    }, [merchandise])
 
     return (
         <div className="relative flex flex-col items-center justify-center gap-10 bg-gradient-to-r from-cyan-100 to-blue-50 px-6 py-16">
@@ -32,7 +41,9 @@ const Merchandise = () => {
             />
             <div className="z-10 flex w-full flex-col items-center justify-center sm:w-[90%]">
                 <Suspense fallback={<Loading />}>
-                    {trendingMerchandise.length > 0 ? (
+                    {trendingMerchandise === null ? (
+                        <Loading />
+                    ) : trendingMerchandise.length > 0 ? (
                         <Carousel
                             perView={1.1}
                             sm={1.9}

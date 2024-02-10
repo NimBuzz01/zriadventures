@@ -14,14 +14,25 @@ import MainButton from '../../components/common/main-button'
 import { EXPERIENCES_NOT_FOUND } from '@/constants/NotFoundConstants'
 import SVGWave from '@/components/common/svg-wave'
 import { ExperienceTypes } from '@/lib/types/experience-types'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Loading from '@/components/loading'
 
 const Experience = () => {
+    const [trendingExperiences, setTrendingExperiences] = useState<
+        ExperienceTypes[] | null
+    >(null)
+
     const { experiences } = useDataContext()
-    const trendingExperiences = experiences.filter(
-        (experience: ExperienceTypes) => experience.trending
-    )
+
+    useEffect(() => {
+        const trendingExperiences = experiences.filter(
+            (experience: ExperienceTypes) => experience.trending
+        )
+
+        if (experiences.length > 0) {
+            setTrendingExperiences(trendingExperiences)
+        }
+    }, [experiences])
 
     return (
         <div className="relative flex flex-col items-center justify-center gap-10 bg-gradient-to-r from-cyan-100 to-blue-50 px-4 py-16">
@@ -31,7 +42,9 @@ const Experience = () => {
             />
             <div className="z-10 w-full sm:w-[90%]">
                 <Suspense fallback={<Loading />}>
-                    {trendingExperiences.length > 0 ? (
+                    {trendingExperiences === null ? (
+                        <Loading />
+                    ) : trendingExperiences.length > 0 ? (
                         <Carousel
                             perView={1}
                             sm={1.55}

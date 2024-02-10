@@ -17,7 +17,7 @@ import { Location } from '@/lib/types/common-types'
 import Loading from '@/components/loading'
 
 const Destinations = () => {
-    const [locations, setLocations] = useState<Location[]>([])
+    const [locations, setLocations] = useState<Location[] | null>(null)
 
     useEffect(() => {
         async function fetchData() {
@@ -43,7 +43,9 @@ const Destinations = () => {
             />
             <div className="w-full sm:w-[90%]">
                 <Suspense fallback={<Loading />}>
-                    {locations.length > 0 ? (
+                    {locations === null ? (
+                        <Loading />
+                    ) : locations.length > 0 ? (
                         <Carousel
                             perView={1}
                             sm={1.5}

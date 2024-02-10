@@ -10,7 +10,7 @@ import { Suspense, useEffect, useState } from 'react'
 import Loading from '@/components/loading'
 
 const Banner = () => {
-    const [banners, setBanners] = useState<BannerTypes[]>()
+    const [banners, setBanners] = useState<BannerTypes[] | null>(null)
 
     useEffect(() => {
         async function fetchData() {
@@ -29,7 +29,9 @@ const Banner = () => {
         <div className="flex flex-col items-center justify-center bg-gradient-to-r from-cyan-100 to-blue-50 pt-10 sm:px-2">
             <div className="relative flex w-full flex-col justify-center sm:w-[90%]">
                 <Suspense fallback={<Loading />}>
-                    {banners && banners?.length > 0 ? (
+                    {banners === null ? (
+                        <Loading />
+                    ) : banners.length > 0 ? (
                         <BannerCarousel
                             perView={1}
                             sm={1}

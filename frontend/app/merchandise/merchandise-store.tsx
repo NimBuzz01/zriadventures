@@ -7,7 +7,6 @@ import { useDataContext } from '@/contexts/data-context'
 import NotFoundLabel from '@/components/notfound-label'
 import { useLocal } from '@/contexts/local-context'
 import Pagination from '@/components/pagination-bar'
-import { useRouter } from 'next/navigation'
 import SearchBar from '@/components/common/search-bar'
 import { MerchandiseTypes } from '@/lib/types/merchandise-types'
 import Loading from '@/components/loading'
@@ -15,7 +14,6 @@ import Loading from '@/components/loading'
 const MerchandiseStore = () => {
     const { merchandise } = useDataContext()
     const { local } = useLocal()
-    const router = useRouter()
 
     const itemsPerPage = 8
     const [currentPage, setCurrentPage] = useState(1)
@@ -24,45 +22,62 @@ const MerchandiseStore = () => {
     const [showOffers, setShowOffers] = useState(false)
     const [minPrice, setMinPrice] = useState(0)
     const [maxPrice, setMaxPrice] = useState(local ? 200000 : 200)
+    const [filteredMerchandise, setFilteredMerchandise] = useState<
+        MerchandiseTypes[] | null
+    >(null)
+    const [currentMerchandise, setCurrentMerchandise] = useState<
+        MerchandiseTypes[] | null
+    >(null)
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value)
         setCurrentPage(1)
     }
 
-    // Filter experiences based on the search query and selected filters
-    const filteredMerchandise = merchandise.filter(
-        (merch: MerchandiseTypes) => {
-            const matchesSearchQuery = merch.name
-                .toLowerCase()
-                .includes(searchQuery.toLowerCase())
-            const matchesCategory = selectedCategory
-                ? merch.category.id === selectedCategory
-                : true
-            const hasOffer = showOffers ? merch.offer : true
-            const convertToLowestPrice = (rates: any, local: boolean) => {
-                const lowestPrice = Math.min(rates[local ? 'LKR' : 'USD'])
+    useEffect(() => {
+        const filteredMerchandise = merchandise.filter(
+            (merch: MerchandiseTypes) => {
+                const matchesSearchQuery = merch.name
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+                const matchesCategory = selectedCategory
+                    ? merch.category.id === selectedCategory
+                    : true
+                const hasOffer = showOffers ? merch.offer : true
+                const convertToLowestPrice = (rates: any, local: boolean) => {
+                    const lowestPrice = Math.min(rates[local ? 'LKR' : 'USD'])
 
-                return lowestPrice
+                    return lowestPrice
+                }
+
+                const matchesPriceRange = merch.options.option.some(
+                    (option) => {
+                        const rates = option.cost
+                        const lowestPrice = convertToLowestPrice(rates, local)
+
+                        return (
+                            lowestPrice >= minPrice && lowestPrice <= maxPrice
+                        )
+                    }
+                )
+
+                return (
+                    matchesSearchQuery &&
+                    matchesCategory &&
+                    hasOffer &&
+                    matchesPriceRange
+                )
             }
+        )
 
-            const matchesPriceRange = merch.options.option.some((option) => {
-                const rates = option.cost
-                const lowestPrice = convertToLowestPrice(rates, local)
-
-                return lowestPrice >= minPrice && lowestPrice <= maxPrice
-            })
-
-            return (
-                matchesSearchQuery &&
-                matchesCategory &&
-                hasOffer &&
-                matchesPriceRange
-            )
+        if (merchandise.length > 0) {
+            setFilteredMerchandise(filteredMerchandise)
         }
-    )
+    }, [merchandise])
 
-    const totalPages = Math.ceil(filteredMerchandise.length / itemsPerPage)
+    const totalPages = Math.ceil(
+        filteredMerchandise ? filteredMerchandise.length / itemsPerPage : 0
+    )
 
     const handlePagination = (pageNumber: number) => {
         if (pageNumber === -1) {
@@ -74,7 +89,14 @@ const MerchandiseStore = () => {
 
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
-    const currentMerchandise = filteredMerchandise.slice(startIndex, endIndex)
+
+    useEffect(() => {
+        setCurrentMerchandise(
+            filteredMerchandise
+                ? filteredMerchandise.slice(startIndex, endIndex)
+                : null
+        )
+    }, [filteredMerchandise])
 
     return (
         <div
@@ -105,7 +127,9 @@ const MerchandiseStore = () => {
                         onChange={handleSearchChange}
                     />
                     <Suspense fallback={<Loading />}>
-                        {currentMerchandise.length > 0 ? (
+                        {currentMerchandise == null ? (
+                            <Loading />
+                        ) : currentMerchandise.length > 0 ? (
                             <div
                                 className="flex flex-wrap items-center justify-center gap-4 py-4"
                                 id="experience-store-items"

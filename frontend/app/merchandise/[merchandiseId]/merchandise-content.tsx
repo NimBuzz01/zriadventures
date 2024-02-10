@@ -18,6 +18,7 @@ import Markdown from 'react-markdown'
 import { calcOffer } from '@/lib/utils'
 import { CartItem } from '@/lib/types/common-types'
 import { MerchandiseTypes } from '@/lib/types/merchandise-types'
+import Loading from '@/components/loading'
 
 const MerchandiseContent = ({ merchandiseId }: { merchandiseId: string }) => {
     const router = useRouter()
@@ -52,8 +53,8 @@ const MerchandiseContent = ({ merchandiseId }: { merchandiseId: string }) => {
 
     if (loading) {
         return (
-            <div className="h-screen w-full">
-                <NotFoundLabel text="Loading..." loading />
+            <div className="flex h-screen w-full items-center justify-center">
+                <Loading />
             </div>
         )
     }

@@ -3,13 +3,14 @@ import ExperienceCard from '@/components/cards/experience-card'
 import React, { Suspense, useEffect, useState } from 'react'
 import ExperienceFilters from './experience-filters'
 import MainHeader from '@/components/common/main-header'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useDataContext } from '@/contexts/data-context'
 import NotFoundLabel from '@/components/notfound-label'
 import { useLocal } from '@/contexts/local-context'
 import Pagination from '@/components/pagination-bar'
 import SearchBar from '@/components/common/search-bar'
 import Loading from '@/components/loading'
+import { ExperienceTypes } from '@/lib/types/experience-types'
 
 const ExperienceStore = () => {
     const { experiences } = useDataContext()
@@ -24,9 +25,14 @@ const ExperienceStore = () => {
     const [showBundles, setShowBundles] = useState(false)
     const [minPrice, setMinPrice] = useState(0)
     const [maxPrice, setMaxPrice] = useState(local ? 200000 : 200)
+    const [filteredExperiences, setFilteredExperiences] = useState<
+        ExperienceTypes[] | null
+    >(null)
+    const [currentExperiences, setCurrentExperiences] = useState<
+        ExperienceTypes[] | null
+    >(null)
 
     const searchParams = useSearchParams()
-    const router = useRouter()
 
     // Parse the destination query parameter from the URL
     useEffect(() => {
@@ -49,82 +55,89 @@ const ExperienceStore = () => {
         setCurrentPage(1)
     }
 
-    const filteredExperiences = experiences.filter((experience) => {
-        const matchesSearchQuery = experience.name
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        const matchesCategory = selectedCategory
-            ? experience.category.some(
-                  (category) =>
-                      category.id.toLowerCase() ===
-                      selectedCategory.toLowerCase()
-              )
-            : true
-        const matchesLocation = selectedLocation
-            ? experience.location.id.toLowerCase() ===
-              selectedLocation.toLowerCase()
-            : true
-        const hasOffer = showOffers ? experience.offer : true
-        const isBundle = showBundles ? experience.bundle : true
-        const convertToLowestPrice = (paxRates: any, local: boolean) => {
-            const lowestPrice = Math.min(
-                ...paxRates.map(
-                    (paxRate: any) => paxRate.rates[local ? 'LKR' : 'USD']
+    useEffect(() => {
+        const filteredExperiences = experiences.filter((experience) => {
+            const matchesSearchQuery = experience.name
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())
+            const matchesCategory = selectedCategory
+                ? experience.category.some(
+                      (category) =>
+                          category.id.toLowerCase() ===
+                          selectedCategory.toLowerCase()
+                  )
+                : true
+            const matchesLocation = selectedLocation
+                ? experience.location.id.toLowerCase() ===
+                  selectedLocation.toLowerCase()
+                : true
+            const hasOffer = showOffers ? experience.offer : true
+            const isBundle = showBundles ? experience.bundle : true
+            const convertToLowestPrice = (paxRates: any, local: boolean) => {
+                const lowestPrice = Math.min(
+                    ...paxRates.map(
+                        (paxRate: any) => paxRate.rates[local ? 'LKR' : 'USD']
+                    )
                 )
-            )
-            return lowestPrice
-        }
-
-        const matchesPriceRange = experience.options.some((option) => {
-            const paxRates = option.paxRates
-            const lowestPrice = convertToLowestPrice(paxRates, local)
-
-            return lowestPrice >= minPrice && lowestPrice <= maxPrice
-        })
-
-        const convertDurationToHours = (
-            amount: number,
-            type: 'Minutes' | 'Hours' | 'Days'
-        ) => {
-            if (type === 'Minutes') {
-                return amount / 60
-            } else if (type === 'Days') {
-                return amount * 24
+                return lowestPrice
             }
-            return amount // Return as is for hours
-        }
 
-        const matchesDuration = selectedDuration
-            ? experience.options.some((option) => {
-                  const { amount, type } = option.duration
-                  const durationInHours = convertDurationToHours(amount, type)
+            const matchesPriceRange = experience.options.some((option) => {
+                const paxRates = option.paxRates
+                const lowestPrice = convertToLowestPrice(paxRates, local)
 
-                  if (selectedDuration === '1-hour-or-less') {
-                      return durationInHours <= 1
-                  } else if (selectedDuration === '2-4-hours') {
-                      return durationInHours >= 2 && durationInHours <= 4
-                  } else if (selectedDuration === '4-10-hours') {
-                      return durationInHours >= 4 && durationInHours <= 10
-                  } else if (selectedDuration === 'overnight') {
-                      return durationInHours >= 24 // 24 hours or more
-                  }
+                return lowestPrice >= minPrice && lowestPrice <= maxPrice
+            })
 
-                  return true // Default case
-              })
-            : true
+            const convertDurationToHours = (
+                amount: number,
+                type: 'Minutes' | 'Hours' | 'Days'
+            ) => {
+                if (type === 'Minutes') {
+                    return amount / 60
+                } else if (type === 'Days') {
+                    return amount * 24
+                }
+                return amount // Return as is for hours
+            }
 
-        return (
-            matchesSearchQuery &&
-            matchesCategory &&
-            matchesLocation &&
-            hasOffer &&
-            isBundle &&
-            matchesPriceRange &&
-            matchesDuration
-        )
-    })
+            const matchesDuration = selectedDuration
+                ? experience.options.some((option) => {
+                      const { amount, type } = option.duration
+                      const durationInHours = convertDurationToHours(
+                          amount,
+                          type
+                      )
 
-    const totalPages = Math.ceil(filteredExperiences.length / itemsPerPage)
+                      if (selectedDuration === '1-hour-or-less') {
+                          return durationInHours <= 1
+                      } else if (selectedDuration === '2-4-hours') {
+                          return durationInHours >= 2 && durationInHours <= 4
+                      } else if (selectedDuration === '4-10-hours') {
+                          return durationInHours >= 4 && durationInHours <= 10
+                      } else if (selectedDuration === 'overnight') {
+                          return durationInHours >= 24 // 24 hours or more
+                      }
+
+                      return true // Default case
+                  })
+                : true
+
+            return (
+                matchesSearchQuery &&
+                matchesCategory &&
+                matchesLocation &&
+                hasOffer &&
+                isBundle &&
+                matchesPriceRange &&
+                matchesDuration
+            )
+        })
+    }, [experiences])
+
+    const totalPages = Math.ceil(
+        filteredExperiences ? filteredExperiences.length / itemsPerPage : 0
+    )
 
     const handlePagination = (pageNumber: number) => {
         if (pageNumber === -1) {
@@ -136,7 +149,14 @@ const ExperienceStore = () => {
 
     const startIndex = (currentPage - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
-    const currentExperiences = filteredExperiences.slice(startIndex, endIndex)
+
+    useEffect(() => {
+        setCurrentExperiences(
+            filteredExperiences
+                ? filteredExperiences.slice(startIndex, endIndex)
+                : null
+        )
+    }, [filteredExperiences])
 
     return (
         <div
@@ -170,7 +190,9 @@ const ExperienceStore = () => {
                         onChange={handleSearchChange}
                     />
                     <Suspense fallback={<Loading />}>
-                        {currentExperiences.length > 0 ? (
+                        {currentExperiences == null ? (
+                            <Loading />
+                        ) : currentExperiences.length > 0 ? (
                             <div className="flex flex-wrap items-center justify-center gap-4 py-4">
                                 {currentExperiences.map((experience) => (
                                     <ExperienceCard
