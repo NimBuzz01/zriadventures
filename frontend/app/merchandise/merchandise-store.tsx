@@ -73,7 +73,14 @@ const MerchandiseStore = () => {
         if (merchandise.length > 0) {
             setFilteredMerchandise(filteredMerchandise)
         }
-    }, [merchandise, filteredMerchandise])
+    }, [
+        merchandise,
+        searchQuery,
+        selectedCategory,
+        showOffers,
+        minPrice,
+        maxPrice,
+    ])
 
     const totalPages = Math.ceil(
         filteredMerchandise ? filteredMerchandise.length / itemsPerPage : 0
@@ -96,7 +103,7 @@ const MerchandiseStore = () => {
                 ? filteredMerchandise.slice(startIndex, endIndex)
                 : null
         )
-    }, [filteredMerchandise])
+    }, [filteredMerchandise, currentPage])
 
     return (
         <div

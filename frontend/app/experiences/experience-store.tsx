@@ -153,7 +153,17 @@ const ExperienceStore = () => {
         if (experiences.length > 0) {
             setFilteredExperiences(filteredExperiences)
         }
-    }, [experiences, filteredExperiences])
+    }, [
+        experiences,
+        searchQuery,
+        selectedCategory,
+        selectedDuration,
+        selectedLocation,
+        showOffers,
+        showBundles,
+        minPrice,
+        maxPrice,
+    ])
 
     const totalPages = Math.ceil(
         filteredExperiences ? filteredExperiences.length / itemsPerPage : 0
@@ -176,7 +186,7 @@ const ExperienceStore = () => {
                 ? filteredExperiences.slice(startIndex, endIndex)
                 : null
         )
-    }, [filteredExperiences])
+    }, [filteredExperiences, currentPage])
 
     return (
         <div
