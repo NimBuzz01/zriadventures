@@ -108,8 +108,12 @@ const MerchandiseStore = () => {
                 title="Our Merchandise Catalog"
             />
             <div className="w-full border-t-2 border-gray-200"></div>
-            <div className="flex w-full flex-col lg:flex-row">
-                <div className="mb-5 w-full lg:mb-0 lg:w-[500px]">
+            <div className="flex w-full flex-col px-2 sm:px-0 lg:flex-row">
+                <div className="my-5 flex w-full flex-col gap-5 lg:mb-0 lg:w-[500px]">
+                    <SearchBar
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                    />
                     <MerchandiseFilters
                         selectedCategory={selectedCategory}
                         setSelectedCategory={setSelectedCategory}
@@ -122,10 +126,6 @@ const MerchandiseStore = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col items-center px-2">
-                    <SearchBar
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                    />
                     <Suspense fallback={<Loading />}>
                         {currentMerchandise == null ? (
                             <Loading />

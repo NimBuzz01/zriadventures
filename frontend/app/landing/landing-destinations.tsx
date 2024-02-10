@@ -63,7 +63,7 @@ const Destinations = () => {
                                     name={location.name}
                                     description={location.description}
                                     href={
-                                        '/experiences?destination=' +
+                                        '/experiences?location=' +
                                         location.id +
                                         '#experience-store-items'
                                     }

@@ -66,7 +66,7 @@ const MerchandiseFilters = ({
     }, [])
 
     return (
-        <Card className="mt-20">
+        <Card>
             {/* Filters */}
             <div className="px-4 py-4">
                 {/* Category select */}

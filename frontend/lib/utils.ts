@@ -1,17 +1,14 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { CartItem, Cost, Duration, ItemType } from './types/common-types'
+import { CartItem, Cost, Duration } from './types/common-types'
 import { APP_BASE_URL, CURRENCY_EXCHANGE_API_KEY } from '@/app.config'
-import {
-    ExperienceCartItem,
-    ExperienceExtras,
-    ExperienceOptions,
-    ExperienceTypes,
-} from './types/experience-types'
+import { ExperienceCartItem, ExperienceOptions } from './types/experience-types'
 import { EventCartItem } from './types/event-types'
 import { MerchandiseCartItem } from './types/merchandise-types'
 import { RentalCartItem } from './types/rental-types'
 import { VoucherCartItem } from './types/voucher-types'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -285,4 +282,9 @@ export const calculateTotalAmount = (cartItems: CartItem[]) => {
     return total
 }
 
-export const getSimplifiedCart = (items: CartItem[]) => {}
+export const updateSearchParam = (name: string, value: string) => {
+    const currentSearchParams = new URLSearchParams(window.location.search)
+    currentSearchParams.delete(name)
+    currentSearchParams.append(name, value)
+    window.history.pushState(null, '', '?' + currentSearchParams.toString())
+}

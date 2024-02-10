@@ -15,9 +15,18 @@ import { ExperienceTypes } from '@/lib/types/experience-types'
 const ExperienceStore = () => {
     const { experiences } = useDataContext()
     const { local } = useLocal()
+    const [filteredExperiences, setFilteredExperiences] = useState<
+        ExperienceTypes[] | null
+    >(null)
+    const [currentExperiences, setCurrentExperiences] = useState<
+        ExperienceTypes[] | null
+    >(null)
     const itemsPerPage = 9
     const [currentPage, setCurrentPage] = useState(1)
     const [searchQuery, setSearchQuery] = useState('')
+
+    const searchParams = useSearchParams()
+
     const [selectedCategory, setSelectedCategory] = useState('')
     const [selectedLocation, setSelectedLocation] = useState('')
     const [selectedDuration, setSelectedDuration] = useState('')
@@ -25,28 +34,36 @@ const ExperienceStore = () => {
     const [showBundles, setShowBundles] = useState(false)
     const [minPrice, setMinPrice] = useState(0)
     const [maxPrice, setMaxPrice] = useState(local ? 200000 : 200)
-    const [filteredExperiences, setFilteredExperiences] = useState<
-        ExperienceTypes[] | null
-    >(null)
-    const [currentExperiences, setCurrentExperiences] = useState<
-        ExperienceTypes[] | null
-    >(null)
-
-    const searchParams = useSearchParams()
 
     // Parse the destination query parameter from the URL
     useEffect(() => {
-        const destination = searchParams.get('destination')
-        const showOffers = searchParams.get('offers')
+        const location = searchParams.get('location')
+        const duration = searchParams.get('duration')
         const category = searchParams.get('category')
-        if (destination) {
-            setSelectedLocation(destination)
+        const showOffers = searchParams.get('offers')
+        const showBundles = searchParams.get('bundles')
+        const minPrice = searchParams.get('minPrice')
+        const maxPrice = searchParams.get('maxPrice')
+        if (location) {
+            setSelectedLocation(location)
+        }
+        if (duration) {
+            setSelectedDuration(duration)
         }
         if (category) {
             setSelectedCategory(category)
         }
         if (showOffers) {
             setShowOffers(true)
+        }
+        if (showBundles) {
+            setShowBundles(true)
+        }
+        if (minPrice) {
+            setMinPrice(parseInt(minPrice))
+        }
+        if (maxPrice) {
+            setMaxPrice(parseInt(maxPrice))
         }
     }, [searchParams])
 
@@ -169,7 +186,11 @@ const ExperienceStore = () => {
             <MainHeader subtitle="All in one" title="Our Experiences" />
             <div className="w-full border-t-2 border-gray-200"></div>
             <div className="flex w-full flex-col lg:flex-row">
-                <div className="mb-5 w-full lg:mb-0 lg:w-[500px]">
+                <div className="my-5 flex w-full flex-col gap-4 px-2 sm:px-0 lg:mb-0 lg:w-[500px]">
+                    <SearchBar
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                    />
                     <ExperienceFilters
                         selectedCategory={selectedCategory}
                         setSelectedCategory={setSelectedCategory}
@@ -188,10 +209,6 @@ const ExperienceStore = () => {
                     />
                 </div>
                 <div className="flex w-full flex-col items-center px-2">
-                    <SearchBar
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                    />
                     <Suspense fallback={<Loading />}>
                         {currentExperiences == null ? (
                             <Loading />

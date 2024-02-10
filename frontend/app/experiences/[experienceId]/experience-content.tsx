@@ -49,7 +49,7 @@ const ExperienceContent = ({ experienceId }: { experienceId: string }) => {
     return (
         <Suspense
             fallback={
-                <div className="h-screen w-full">
+                <div className="flex h-screen w-full items-center justify-center">
                     <Loading />
                 </div>
             }

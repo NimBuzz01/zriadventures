@@ -8,7 +8,7 @@ interface Props {
 
 const SearchBar = ({ value, onChange }: Props) => {
     return (
-        <div className="flex w-full max-w-[600px] px-2 py-4 pb-2">
+        <div className="flex w-full">
             <label htmlFor="simple-search" className="sr-only">
                 Search
             </label>
@@ -19,8 +19,8 @@ const SearchBar = ({ value, onChange }: Props) => {
                 <input
                     type="text"
                     id="simple-search"
-                    className="block w-full rounded-lg border border-gray-500 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  "
-                    placeholder="Search an experience..."
+                    className="block w-full rounded-lg border-2 border-gray-400 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  "
+                    placeholder="Enter your Search here..."
                     value={value}
                     onChange={onChange}
                     required

@@ -104,7 +104,7 @@ const ExperienceFilters = ({
     }
 
     return (
-        <Card className="mt-20">
+        <Card>
             <div className="rounded-lg border border-gray-200 bg-white p-4">
                 {/* Category filter */}
                 <label

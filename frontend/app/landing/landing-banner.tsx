@@ -45,7 +45,7 @@ const Banner = () => {
                             {banners.map((banner, index: number) => (
                                 <div
                                     key={index}
-                                    className="relative h-80 w-full sm:h-[300px] md:h-[500px]"
+                                    className="relative h-56 w-full sm:h-64 md:h-[500px]"
                                 >
                                     <Link href={banner.url}>
                                         <BlurImage
