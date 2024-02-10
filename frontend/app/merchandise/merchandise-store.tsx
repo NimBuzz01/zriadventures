@@ -73,7 +73,7 @@ const MerchandiseStore = () => {
         if (merchandise.length > 0) {
             setFilteredMerchandise(filteredMerchandise)
         }
-    }, [merchandise])
+    }, [merchandise, filteredMerchandise])
 
     const totalPages = Math.ceil(
         filteredMerchandise ? filteredMerchandise.length / itemsPerPage : 0
